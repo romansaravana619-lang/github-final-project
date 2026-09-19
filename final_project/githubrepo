@@ -1,0 +1,13 @@
+Command:
+curl -s https://api.github.com/repos/romansaravana619-lang/expressBookReview
+
+Expected fork verification after the repository is actually forked:
+{
+  "fork": true,
+  "full_name": "romansaravana619-lang/expressBookReview",
+  "parent": {
+    "full_name": "ibm-developer-skills-network/expressBookReview"
+  }
+}
+
+NOTE: This evidence must be replaced with the real GitHub API output after the repository is forked. The current connected GitHub tools do not expose a repository-fork/create-repository action.
