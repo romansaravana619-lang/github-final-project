@@ -1,0 +1,11 @@
+Command:
+curl -s http://localhost:5001/title/Pride
+
+Output:
+[
+  {
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "reviews": {}
+  }
+]
