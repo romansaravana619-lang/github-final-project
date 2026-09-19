@@ -1,0 +1,7 @@
+Command:
+curl -s -b cookies.txt -X DELETE http://localhost:5001/customer/auth/review/9780143127550
+
+Output:
+{
+  "message": "Review deleted successfully"
+}
