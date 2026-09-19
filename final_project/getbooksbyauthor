@@ -1,0 +1,11 @@
+Command:
+curl -s http://localhost:5001/author/Achebe
+
+Output:
+[
+  {
+    "title": "Things Fall Apart",
+    "author": "Chinua Achebe",
+    "reviews": {}
+  }
+]
