@@ -1,0 +1,9 @@
+Command:
+curl -s http://localhost:5001/isbn/9780143127550
+
+Output:
+{
+  "title": "To Kill a Mockingbird",
+  "author": "Harper Lee",
+  "reviews": {}
+}
