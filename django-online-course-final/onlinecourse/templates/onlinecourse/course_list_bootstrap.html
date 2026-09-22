@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OnlineCourse</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="{% url 'onlinecourse:index' %}">OnlineCourse</a>
+    <div>
+        {% if user.is_authenticated %}
+            <span class="mr-2">{{ user.username }}</span>
+            <a href="{% url 'onlinecourse:logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'onlinecourse:login' %}">Login</a>
+            <a href="{% url 'onlinecourse:registration' %}">Sign Up</a>
+        {% endif %}
+    </div>
+</nav>
+<div class="container mt-4">
+    <h2>Available Courses</h2>
+    {% for course in course_list %}
+        <div class="card mt-2">
+            <div class="card-body">
+                <h5 class="card-title">{{ course.name }}</h5>
+                <p class="card-text">{{ course.description }}</p>
+                <a class="btn btn-primary" href="{% url 'onlinecourse:course_details' course.id %}">View Course</a>
+            </div>
+        </div>
+    {% empty %}
+        <div class="alert alert-secondary">No courses available.</div>
+    {% endfor %}
+</div>
+</body>
+</html>
