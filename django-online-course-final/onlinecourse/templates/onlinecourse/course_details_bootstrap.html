@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ course.name }} - Course Details</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'onlinecourse:index' %}">OnlineCourse</a>
+        <div>
+            {% if user.is_authenticated %}
+                <span class="mr-2">{{ user.first_name }} ({{ user.username }})</span>
+                <a class="btn btn-link" href="{% url 'onlinecourse:logout' %}">Logout</a>
+            {% else %}
+                <a class="btn btn-link" href="{% url 'onlinecourse:login' %}">Login</a>
+                <a class="btn btn-link" href="{% url 'onlinecourse:registration' %}">Sign Up</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid mt-3">
+    <h2>{{ course.name }}</h2>
+    <p class="text-muted">{{ course.description }}</p>
+
+    <div class="card-columns-vertical">
+        {% for lesson in course.lesson_set.all %}
+            <div class="card mt-1">
+                <div class="card-header">
+                    <h5>Lesson {{ lesson.order|add:1 }}: {{ lesson.title }}</h5>
+                </div>
+                <div class="card-body">{{ lesson.content }}</div>
+            </div>
+        {% empty %}
+            <div class="alert alert-secondary">No lessons available.</div>
+        {% endfor %}
+    </div>
+
+    {% if user.is_authenticated and course.lesson_set.all %}
+        <hr>
+        <button class="btn btn-primary mt-1" type="button"
+                data-toggle="collapse" data-target="#exam">
+            Start Course Exam
+        </button>
+
+        <div id="exam" class="collapse mt-2">
+            <div class="card">
+                <div class="card-body">
+                    <form id="questionform"
+                          action="{% url 'onlinecourse:submit' course.id %}"
+                          method="post">
+                        {% csrf_token %}
+                        {% for lesson in course.lesson_set.all %}
+                            {% for question in lesson.question_set.all %}
+                                <div class="card mt-2">
+                                    <div class="card-header">
+                                        <h5>{{ question.question_text }}</h5>
+                                    </div>
+                                    <div class="form-group ml-3 mt-2">
+                                        {% for choice in question.choice_set.all %}
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="checkbox"
+                                                           name="choice_{{ choice.id }}"
+                                                           class="form-check-input"
+                                                           value="{{ choice.id }}">
+                                                    {{ choice.choice_text }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        <input class="btn btn-success btn-block mt-3"
+                               type="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+</body>
+</html>
