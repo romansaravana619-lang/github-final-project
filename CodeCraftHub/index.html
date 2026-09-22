@@ -61,8 +61,9 @@ function saveCourse(){
  const i=courses.findIndex(c=>c.id===p.id); if(i<0)courses.unshift(p);else courses[i]=p; persist();render();$("courseDialog").close();
 }
 function deleteCourse(id){const c=courses.find(x=>x.id===id);if(!c)return;if(!confirm("Delete \""+c.title+"\"?"))return;courses=courses.filter(x=>x.id!==id);persist();render()}
+function handleDelete(id){deleteCourse(id)}
 $("addCourseBtn").onclick=openAdd;$("closeDialogBtn").onclick=()=>$("courseDialog").close();$("cancelBtn").onclick=()=>$("courseDialog").close();$("saveCourseBtn").onclick=saveCourse;$("searchInput").oninput=render;$("levelFilter").onchange=render;
-$("courseGrid").onclick=function(e){const b=e.target.closest("button");if(!b)return;const c=courses.find(x=>x.id===b.dataset.id);if(!c)return;if(b.dataset.action==="edit")openEdit(c);else if(b.dataset.action==="delete")deleteCourse(c.id)}
+$("courseGrid").onclick=function(e){const b=e.target.closest("button");if(!b)return;const c=courses.find(x=>x.id===b.dataset.id);if(!c)return;if(b.dataset.action==="edit")openEdit(c)}
 render();
 </script>
 </body></html>
