@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Exam Results</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'onlinecourse:index' %}">OnlineCourse</a>
+    </div>
+</nav>
+
+<div class="container-fluid mt-3">
+    {% if grade > 80 %}
+        <div class="alert alert-success">
+            <b>Congratulations, {{ user.first_name|default:user.username }}!</b>
+            You have passed the exam with score <b>{{ grade }}/100</b>.
+        </div>
+    {% else %}
+        <div class="alert alert-danger">
+            <b>Failed.</b>
+            {{ user.first_name|default:user.username }} scored <b>{{ grade }}/100</b>.
+        </div>
+        <a class="btn btn-link text-danger"
+           href="{% url 'onlinecourse:course_details' course.id %}">Re-test</a>
+    {% endif %}
+
+    <h5 class="mt-3">Exam results</h5>
+
+    {% for lesson in course.lesson_set.all %}
+        {% for question in lesson.question_set.all %}
+            <div class="card mt-2">
+                <div class="card-header">
+                    <h5>{{ question.question_text }}</h5>
+                </div>
+                <div class="card-body">
+                    {% for choice in question.choice_set.all %}
+                        <p class="mb-1">
+                            {% if choice.is_correct and choice in choices %}
+                                <span class="text-success">
+                                    Correct answer: {{ choice.choice_text }}
+                                </span>
+                            {% elif choice.is_correct %}
+                                <span class="text-warning">
+                                    Not selected: {{ choice.choice_text }}
+                                </span>
+                            {% elif choice in choices %}
+                                <span class="text-danger">
+                                    Wrong answer: {{ choice.choice_text }}
+                                </span>
+                            {% else %}
+                                {{ choice.choice_text }}
+                            {% endif %}
+                        </p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>
+</body>
+</html>
