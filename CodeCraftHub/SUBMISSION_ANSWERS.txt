@@ -3,17 +3,15 @@ QUESTION 1
 
 QUESTION 2
 .btn-primary {
-  background: linear-gradient(135deg, #5b5ff5, #7c3aed);
+  background: #8B5CF6;
   color: #ffffff;
-  box-shadow: 0 8px 18px rgba(91, 95, 245, 0.28);
 }
 
 QUESTION 3
 .btn-success {
-  background: linear-gradient(135deg, #0f9f6e, #16a34a);
+  background: #F59E0B;
   color: #ffffff;
-  box-shadow: 0 8px 18px rgba(22, 163, 74, 0.24);
 }
 
 QUESTION 4
-<button class="btn btn-danger delete-btn" type="button" aria-label="Delete course">Delete</button>
+<button class="btn-danger" onclick="handleDelete('{{ course.id }}')">Remove</button>
